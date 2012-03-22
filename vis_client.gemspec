@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["fltiago"]
   s.email       = ["fltiago@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
+  s.summary     = %q{Cliente da comunicação assíncrona entre o projeto core e o projeto de visualização.}
   s.description = %q{TODO: Write a gem description}
 
   s.rubyforge_project = "vis_client"
