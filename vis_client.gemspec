@@ -9,7 +9,8 @@ Gem::Specification.new do |s|
   s.email       = ["fltiago@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Cliente da comunicação assíncrona entre o projeto core e o projeto de visualização.}
-  s.description = %q{TODO: Write a gem description}
+  s.description = %q{Cliente responsável pela comunicação entre o core e a visualização, com está gem será
+                     possível se comunicar com o core apenas chamando um método e passando com parametro, os dados necessários e a url de destino.}
 
   s.rubyforge_project = "vis_client"
   s.add_development_dependency "rspec"
