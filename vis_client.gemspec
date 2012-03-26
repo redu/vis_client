@@ -4,10 +4,11 @@ require "vis_client/version"
 
 Gem::Specification.new do |s|
   s.name        = "vis_client"
+  s.platform    = Gem::Platform::RUBY
   s.version     = VisClient::VERSION
   s.authors     = ["fltiago"]
   s.email       = ["fltiago@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/redu/vis_client"
   s.summary     = %q{Cliente da comunicação assíncrona entre o projeto core e o projeto de visualização.}
   s.description = %q{Cliente responsável pela comunicação entre o core e a visualização, com está gem será
                      possível se comunicar com o core apenas chamando um método e passando com parametro, os dados necessários e a url de destino.}
