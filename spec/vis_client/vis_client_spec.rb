@@ -20,7 +20,7 @@ describe VisClient do
     it "should POST to a passed url" do
       EM.run {
         stub_request(:post, "http://www.example.com/?test=test").
-        with(:headers => {'Content-Type'=>'application/json'}).
+        with(:headers => {'Content-Type'=>'application/json', 'Authorization'=>['JOjLeRjcK', 'core-team']}).
         to_return(:status => 200, :body => "", :headers => {})
 
         params = { :test => "test"}
@@ -33,7 +33,7 @@ describe VisClient do
 
     it "should a deferrable which fails whith Bad Request error" do
       stub_request(:post, "http://www.example.com/").
-        with(:headers => {'Content-Type'=>'application/json'}).
+        with(:headers => {'Content-Type'=>'application/json', 'Authorization'=>['JOjLeRjcK', 'core-team']}).
         to_return(:status => 400, :body => "", :headers => {})
       defe = @subject.send_async_info("", @example_url)
 

@@ -18,7 +18,7 @@ module VisClient
 
     http = EM::HttpRequest.new(url).post({
       :query => params, :timeout => 5,:body => "",
-      :head => {'Content-Type' => 'application/json'}
+      :head => {'Content-Type' => 'application/json', 'authorization' => ["core-team", "JOjLeRjcK"] }
     })
     http.callback {
       begin
