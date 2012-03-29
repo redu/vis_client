@@ -6,7 +6,6 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 #
 require "vis_client"
-require "webmock/rspec"
 require "eventmachine"
 require "em-http"
 
