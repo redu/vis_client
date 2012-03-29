@@ -1,38 +1,38 @@
 require "vis_client/version"
+require 'json'
 
 module VisClient
 
-  class Redirection
+  class Redirection < Exception
   end
-  class BadRequest
+  class BadRequest < Exception
   end
-  class UnauthorizedAccess
+  class UnauthorizedAccess < Exception
   end
-  class ResourceNotFound
+  class ResourceNotFound < Exception
   end
-  class ConnectionError
+  class ConnectionError < Exception
   end
 
   def send_async_info(params, url)
-    deferrable = EM::DefaultDeferrable.new
+    EM.run {
+      http = EM::HttpRequest.new(url).post({
+        :body => params.to_json,
+        :head => {'Authorization' => ["core-team", "JOjLeRjcK"],
+                  'Content-Type' => 'application/json' }
+      })
 
-    http = EM::HttpRequest.new(url).post({
-      :query => params, :timeout => 5,:body => "",
-      :head => {'Content-Type' => 'application/json', 'authorization' => ["core-team", "JOjLeRjcK"] }
-    })
-    http.callback {
-      begin
+      http.callback {
         handle_response(http.response_header.status, http.response.chomp)
-        deferrable.succeed
-      rescue => e
-        deferrable.fail(e)
-      end
-    }
-    http.errback {
-      deferrable.fail(Error.new("Network error connecting to pusher"))
-    }
+        EM.stop
+      }
 
-    deferrable
+      http.errback {
+        raise ConnectionError, "Unknown error (status code #{http.response_header.status}): #{http.response.chomp}"
+        EM.stop
+      }
+
+   }
   end
 
   private
