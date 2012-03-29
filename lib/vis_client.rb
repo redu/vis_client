@@ -41,6 +41,8 @@ module VisClient
     case status_code
     when 200
       return true
+    when 201
+      return true
     when 202
       return true
     when 400
