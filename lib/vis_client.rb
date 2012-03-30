@@ -1,21 +1,24 @@
 require "vis_client/version"
 require 'json'
+require 'logger'
 
 module VisClient
 
-  class Redirection < Exception
+  class Redirection < StandardError
   end
-  class BadRequest < Exception
+  class BadRequest < StandardError
   end
-  class UnauthorizedAccess < Exception
+  class UnauthorizedAccess < StandardError
   end
-  class ResourceNotFound < Exception
+  class ResourceNotFound < StandardError
   end
-  class ConnectionError < Exception
+  class ConnectionError < StandardError
   end
 
+  # send to vis application passed through url a set of params
   def send_async_info(params, url)
     EM.run {
+
       http = EM::HttpRequest.new(url).post({
         :body => params.to_json,
         :head => {'Authorization' => ["core-team", "JOjLeRjcK"],
@@ -23,21 +26,32 @@ module VisClient
       })
 
       http.callback {
-        handle_response(http.response_header.status, http.response.chomp)
+        begin
+          handle_response(http.response_header.status)
+        rescue
+          log = Logger.new("log/error.log")
+          log.error "Callback, error with code: #{http.response_header.status}"
+          log.close
+        end
         EM.stop
       }
 
       http.errback {
-        raise ConnectionError, "Unknown error (status code #{http.response_header.status}): #{http.response.chomp}"
+        begin
+          handle_response(http.response_header.status)
+        rescue
+          log = Logger.new("log/error.log")
+          log.error "Errback: Bad DNS or Timeout, code:#{http.response_header.status}"
+          log.close
+        end
         EM.stop
       }
-
-   }
+    }
   end
 
   private
 
-  def handle_response(status_code, body)
+  def handle_response(status_code)
     case status_code
     when 200
       return true
@@ -46,9 +60,9 @@ module VisClient
     when 202
       return true
     when 400
-      raise BadRequest, "Bad request: #{body}"
+      raise BadRequest, "Bad request"
     when 401
-      raise UnauthorizedAccess, body
+      raise UnauthorizedAccess, "Not Authorized access to vis server."
     when 404
       raise ResourceNotFound, "Resource not found: app_id is probably invalid"
     else
