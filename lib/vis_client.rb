@@ -14,6 +14,8 @@ module VisClient
   end
   class ConnectionError < StandardError
   end
+  class Conflict < StandardError
+  end
 
   # send to vis application passed through url a set of params
   def send_async_info(params, url)
@@ -65,6 +67,8 @@ module VisClient
       raise UnauthorizedAccess, "Not Authorized access to vis server."
     when 404
       raise ResourceNotFound, "Resource not found: app_id is probably invalid"
+    when 409
+      raise Conflict, "Resorce already exists"
     else
       raise ConnectionError, "Unknown error (status code #{status_code}): #{body}"
     end
