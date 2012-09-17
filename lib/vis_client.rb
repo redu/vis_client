@@ -32,7 +32,7 @@ module VisClient
           handle_response(http.response_header.status)
         rescue
           log = Logger.new("log/error.log")
-          log.error "Callback, error with code: #{ http.response_header.status }, with body #{ http.response }"
+          log.error "Callback, error with code: #{ http.response_header.status }"
           log.close
         end
         EM.stop
