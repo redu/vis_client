@@ -19,36 +19,44 @@ module VisClient
 
   # send to vis application passed through url a set of params
   def send_async_info(params, url)
-    EM.run {
+    debugger
+    if EM.reactor_running?
+      do_request(params, url, true)
+    else
+      EM.run do
+        do_request(params, url, false)
+      end
+    end
+  end
 
-      http = EM::HttpRequest.new(url).post({
-        :body => params.to_json,
-        :head => {'Authorization' => ["core-team", "JOjLeRjcK"],
-                  'Content-Type' => 'application/json' }
-      })
+  def do_request(params, url, self_reactor)
+    http = EM::HttpRequest.new(url).post({
+      :body => params.to_json,
+      :head => {'Authorization' => ["core-team", "JOjLeRjcK"],
+                'Content-Type' => 'application/json' }
+    })
 
-      http.callback {
-        begin
-          handle_response(http.response_header.status)
-        rescue
-          log = Logger.new("log/error.log")
-          log.error "Callback, error with code: #{ http.response_header.status }"
-          log.close
-        end
-        EM.stop
-      }
+    http.callback do
+      begin
+        handle_response(http.response_header.status)
+      rescue
+        log = Logger.new("log/error.log")
+        log.error "Callback, error with code: #{ http.response_header.status }"
+        log.close
+      end
+      EM.stop unless self_reactor
+    end
 
-      http.errback {
-        begin
-          handle_response(http.response_header.status)
-        rescue
-          log = Logger.new("log/error.log")
-          log.error "Errback: Bad DNS or Timeout, code:#{ http.response_header.status }, with body: #{ http.req.body }"
-          log.close
-        end
-        EM.stop
-      }
-    }
+    http.errback  do
+      begin
+        handle_response(http.response_header.status)
+      rescue
+        log = Logger.new("log/error.log")
+        log.error "Errback: Bad DNS or Timeout, code:#{ http.response_header.status }, with body: #{ http.req.body }"
+        log.close
+      end
+      EM.stop unless self_reactor
+    end
   end
 
   private

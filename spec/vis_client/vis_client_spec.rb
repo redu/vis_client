@@ -30,8 +30,6 @@ describe VisClient do
 
       url = "http://localhost:3000/hierarchy_notifications.json"
       http = @subject.send_async_info(params, url)
-
     end
-
- end
+  end
 end
