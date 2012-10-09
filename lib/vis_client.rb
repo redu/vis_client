@@ -19,7 +19,6 @@ module VisClient
 
   # send to vis application passed through url a set of params
   def send_async_info(params, url)
-    debugger
     if EM.reactor_running?
       do_request(params, url, true)
     else
