@@ -1,2 +1,1 @@
 # Logfile created on Tue Oct 09 09:57:39 -0300 2012 by logger.rb/1.2.6
-E, [2012-10-09T09:57:39.059796 #12410] ERROR -- : Errback: Bad DNS or Timeout, code:0, with body: {"hierarchy_notification":{"statusable_type":"Lecture","type":"help","subject_id":1,"in_response_to_id":null,"space_id":1,"in_response_to_type":null,"course_id":1,"status_id":1,"user_id":1,"statusable_id":1,"lecture_id":1}}
