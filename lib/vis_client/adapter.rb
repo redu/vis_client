@@ -1,0 +1,63 @@
+require 'base64'
+require 'json'
+
+module VisClient
+  class Adapter
+
+    def initialize(opts = nil)
+      @config = VisClient.config
+      @config.config.import(opts) if opts
+    end
+
+    def send_request(params, url)
+      if config.deliver_notifications
+        faraday_request params, url
+      else
+        config.logger.info "Notifications are disabled, if you wanna see some notifications," \
+          "please modify the configuration."
+      end
+    end
+
+
+    private
+
+    attr_reader :config
+
+    def faraday_request(params, url)
+      resp = connection.post(url) do |c|
+        c.body = params.to_json
+      end
+
+      handle_response(resp.status, resp.body)
+    end
+
+    def connection
+      headers = {'Authorization' => Base64::encode64("core-team:JOjLeRjcK"),
+                 'Content-Type' => 'application/json'}
+      @faraday ||= Faraday.new(:url => config.endpoint,
+                               :headers => headers)
+    end
+
+    def handle_response(status_code, body)
+      case status_code
+      when 200
+        return true
+      when 201
+        return true
+      when 202
+        return true
+      when 400
+        raise BadRequest, "Bad request"
+      when 401
+        raise UnauthorizedAccess, "Not Authorized to access vis server."
+      when 404
+        raise ResourceNotFound, "Resource not found: app_id is probably invalid"
+      when 409
+        raise Conflict, "Resorce already exists"
+      else
+        raise ConnectionError, "Unknown error (status code #{status_code}): #{body}"
+      end
+    end
+
+  end
+end
