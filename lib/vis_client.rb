@@ -1,84 +1,22 @@
-require "vis_client/version"
-require 'json'
-require 'logger'
+require 'vis_client/version'
+require 'vis_client/errors'
+require 'vis_client/config'
+require 'vis_client/adapter'
 
 module VisClient
 
-  class Redirection < StandardError
-  end
-  class BadRequest < StandardError
-  end
-  class UnauthorizedAccess < StandardError
-  end
-  class ResourceNotFound < StandardError
-  end
-  class ConnectionError < StandardError
-  end
-  class Conflict < StandardError
+  def self.configure(&block)
+    yield(config) if block_given?
   end
 
-  # send to vis application passed through url a set of params
-  def send_async_info(params, url)
-    if EM.reactor_running?
-      do_request(params, url, true)
-    else
-      EM.run do
-        do_request(params, url, false)
-      end
-    end
+  def self.config
+    @config ||= Config.new
   end
 
-  def do_request(params, url, self_reactor)
-    http = EM::HttpRequest.new(url).post({
-      :body => params.to_json,
-      :head => {'Authorization' => ["core-team", "JOjLeRjcK"],
-                'Content-Type' => 'application/json' }
-    })
-
-    http.callback do
-      begin
-        handle_response(http.response_header.status)
-      rescue
-        log = Logger.new("log/error.log")
-        log.error "Callback, error with code: #{ http.response_header.status }"
-        log.close
-      end
-      EM.stop unless self_reactor
-    end
-
-    http.errback  do
-      begin
-        handle_response(http.response_header.status)
-      rescue
-        log = Logger.new("log/error.log")
-        log.error "Errback: Bad DNS or Timeout, code:#{ http.response_header.status }, with body: #{ http.req.body }"
-        log.close
-      end
-      EM.stop unless self_reactor
-    end
-  end
-
-  private
-
-  def handle_response(status_code)
-    case status_code
-    when 200
-      return true
-    when 201
-      return true
-    when 202
-      return true
-    when 400
-      raise BadRequest, "Bad request"
-    when 401
-      raise UnauthorizedAccess, "Not Authorized access to vis server."
-    when 404
-      raise ResourceNotFound, "Resource not found: app_id is probably invalid"
-    when 409
-      raise Conflict, "Resorce already exists"
-    else
-      raise ConnectionError, "Unknown error (status code #{status_code}): #{body}"
-    end
+  def self.notify_post(params, action)
+    @adapter ||= Adapter.new
+    @adapter.send_request(params, action)
+    @adapter
   end
 
 end
