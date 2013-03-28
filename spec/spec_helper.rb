@@ -5,9 +5,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 #
-require "vis_client"
-require "faraday"
-require "webmock/rspec"
+require 'vis_client'
+require 'faraday'
+require 'webmock/rspec'
+require 'roar'
+
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir["spec/support/**/*.rb"].each {|f| require f}
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
