@@ -3,6 +3,8 @@ require 'vis_client/errors'
 require 'vis_client/config'
 require 'vis_client/adapter'
 require 'vis_client/notification_builder'
+require 'vis_client/job'
+require 'vis_client/queue'
 
 module VisClient
 
