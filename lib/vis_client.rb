@@ -5,6 +5,7 @@ require 'vis_client/adapter'
 require 'vis_client/notification_builder'
 require 'vis_client/job'
 require 'vis_client/queue'
+require 'vis_client/notifier'
 
 module VisClient
 
