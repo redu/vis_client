@@ -27,14 +27,29 @@ module VisClient
       end
     end
 
-    context "when calling notify_post" do
-      let(:params) { {:test => "test" } }
-      let(:action) { "/hierarchy_notifications.json" }
+    context "#notify_delayed" do
+      let(:resource) { "/hierarchy_notifications.json" }
+      let(:type) { "enrollment" }
+      let(:args) do
+        [Thing.new("human"), Thing.new("animal"), Thing.new("saiyan")]
+      end
 
-      it "should call send_request method from Adapter" do
-        Adapter.any_instance.
-          should_receive(:send_request).with(params, action)
-        VisClient.notify_post(params, action)
+      before do
+        @notifier = double(Notifier)
+        @notifier.stub(:build)
+      end
+
+
+      it "should instantiate Notifier" do
+        Notifier.should_receive(:new).with(resource, type, args).
+          and_return(@notifier)
+        VisClient.notify_delayed(resource, type, args)
+      end
+
+      it "should call build method from Notifier" do
+        Notifier.any_instance.
+          should_receive(:build)
+        VisClient.notify_delayed(resource, type, args)
       end
     end
   end

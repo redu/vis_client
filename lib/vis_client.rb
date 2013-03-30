@@ -17,10 +17,10 @@ module VisClient
     @config ||= Config.new
   end
 
-  def self.notify_post(params, action)
-    @adapter ||= Adapter.new
-    @adapter.send_request(params, action)
-    @adapter
+  def self.notify_delayed(resource, type, *args)
+    notifier = Notifier.new(resource, type, *args)
+    notifier.build
+    notifier
   end
 
 end
