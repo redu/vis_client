@@ -1,5 +1,5 @@
 class Thing
-  attr_reader :type
+  attr_accessor :type
 
   def initialize(type)
     @type = type
