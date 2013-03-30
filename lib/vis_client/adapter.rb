@@ -9,9 +9,9 @@ module VisClient
       @config.config.import(opts) if opts
     end
 
-    def send_request(params, url)
+    def send_request(params, resource)
       if config.deliver_notifications
-        faraday_request params, url
+        faraday_request params, resource
       else
         config.logger.info "Notifications are disabled, if you wanna see some notifications," \
           "please modify the configuration."
@@ -23,9 +23,9 @@ module VisClient
 
     attr_reader :config
 
-    def faraday_request(params, url)
-      resp = connection.post(url) do |c|
-        c.body = params.to_json
+    def faraday_request(params, resource)
+      resp = connection.post(resource) do |c|
+        c.body = params
       end
 
       handle_response(resp.status, resp.body)
