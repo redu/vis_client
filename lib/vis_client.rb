@@ -18,7 +18,7 @@ module VisClient
   end
 
   def self.notify_delayed(resource, type, *args)
-    notifier = Notifier.new(resource, type, *args)
+    notifier = Notifier.new(resource, type, args)
     notifier.build
     notifier
   end
