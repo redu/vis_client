@@ -43,7 +43,7 @@ module VisClient
       it "should instantiate Notifier" do
         Notifier.should_receive(:new).with(resource, type, args).
           and_return(@notifier)
-        VisClient.notify_delayed(resource, type, args)
+        VisClient.notify_delayed(resource, type, *args)
       end
 
       it "should call build method from Notifier" do
