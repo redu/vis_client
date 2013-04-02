@@ -6,13 +6,4 @@ module ThingVisRepresenter
   include Roar::Representer::Feature::Hypermedia
 
   property :type
-  @@type = nil
-
-  def type
-    @@type
-  end
-
-  def self.type=(type)
-    @@type = type
-  end
 end

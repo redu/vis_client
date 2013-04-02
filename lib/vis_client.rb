@@ -1,11 +1,16 @@
 require 'vis_client/version'
+
+require 'vis_client/representers/notification_representer'
+
 require 'vis_client/errors'
 require 'vis_client/config'
 require 'vis_client/adapter'
+require 'vis_client/notification'
 require 'vis_client/notification_builder'
 require 'vis_client/job'
 require 'vis_client/queue'
 require 'vis_client/notifier'
+
 
 module VisClient
 
