@@ -14,15 +14,11 @@ module VisClient
 
     subject { Notifier.new(resource, type, args) }
 
-    it "should create NotificationBuilder for each object" do
+    it "should create NotificationBuilder" do
       notification_builder = double(NotificationBuilder)
       notification_builder.stub(:build)
 
-      args.each do |object|
-       NotificationBuilder.should_receive(:new).
-          with(object, type).and_return(notification_builder)
-      end
-
+      NotificationBuilder.should_receive(:new).and_return(notification_builder)
       subject.build
     end
 
@@ -37,7 +33,7 @@ module VisClient
 
     it "should create a job for each element in args array" do
       args.each do |object|
-        # simulando o comportamento do NotificationBuilder
+        # simulando o comportamento do NotificationBuilder e do Notification
         object.type = type
         Job.should_receive(:new).with(object.to_json, resource)
       end

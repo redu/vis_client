@@ -11,12 +11,12 @@ module VisClient
     def build
       @args = @args.flatten
       queue = Queue.new
+      notification_builder = NotificationBuilder.new
 
       @args.each do |object|
-        notification_builder = NotificationBuilder.new(object, type)
-        object = notification_builder.build
+        notification = notification_builder.build(type, object)
 
-        job = Job.new(object.to_json, resource)
+        job = Job.new(notification.to_json, resource)
         queue.enqueue(job)
       end
     end
