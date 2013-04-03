@@ -1,8 +1,8 @@
 class Thing
-  attr_accessor :type
+  attr_accessor :statusable_type
 
-  def initialize(type)
-    @type = type
+  def initialize(statusable_type)
+    @statusable_type = statusable_type
   end
 
   def to_hash

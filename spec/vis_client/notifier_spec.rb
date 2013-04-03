@@ -33,9 +33,8 @@ module VisClient
 
     it "should create a job for each element in args array" do
       args.each do |object|
-        # simulando o comportamento do NotificationBuilder e do Notification
-        object.type = type
-        Job.should_receive(:new).with(object.to_json, resource)
+        noti = NotificationBuilder.new.build(type, object)
+        Job.should_receive(:new).with(noti.to_json, resource)
       end
 
       subject.build

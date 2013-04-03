@@ -5,5 +5,5 @@ module ThingVisRepresenter
   include Roar::Representer::JSON
   include Roar::Representer::Feature::Hypermedia
 
-  property :type
+  property :statusable_type
 end
