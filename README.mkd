@@ -37,14 +37,14 @@ end
 
 ### Enviando requisições
 
-Por enqunato, só há um método para envio de requisições: 
+Por enquanto, só há um método para envio de requisições: 
 
 ```ruby
 VisClient.notify_post(resource, type, *args)
 ```
 
-Ele aceita três parâmetros. O primeiro é o ```resource``` responsável para onde deve ser enviado a requisição. O segundo
-é o tipo de notificação por exemplo ```enrollment``` ou ```subject_finalized```. E o terceiro são os objetos que serão 
+Ele aceita três parâmetros. O primeiro é o ```resource```, variável responsável por dizer o destino da requisição, exemplo ```/hierarchy_notifications.json```.
+O segundo é o tipo de notificação por exemplo ```enrollment``` ou ```subject_finalized```. E o terceiro são os objetos que serão 
 serializados para envio podendo ser um único objeto ou array deles, exemplo:
 
 ```ruby
@@ -86,8 +86,9 @@ VisClient.notify_delayed("/hierarchy_notifications.json", "enrollment", enrollme
 ```
 
 ##TODO
-1. Retirar a senha e usuário que autenticam o usuário de vis do código.
-2. Enviar várias requisições em paralelo.
+1. Remover o resource da chamada de ```notify_delayed``` e colocar na configuração do ```endpoint```.
+2. Retirar a senha e usuário que autenticam o usuário de vis do código.
+3. Enviar várias requisições em paralelo.
 
 ## Contributing
 
