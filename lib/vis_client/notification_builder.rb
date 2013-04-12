@@ -11,7 +11,7 @@ module VisClient
     private
 
     def get_representer_from_object(object)
-      Object.const_get(object.class.name + REP_SUFFIX)
+      Vis.const_get(object.class.name + REP_SUFFIX)
     end
   end
 end
