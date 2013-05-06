@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "bson_ext", "~> 1.5"
   s.add_runtime_dependency "delayed_job_mongoid"
   s.add_runtime_dependency "activerecord", "~> 3.0"
+  s.add_runtime_dependency "valium"
   s.add_runtime_dependency "json"
   s.add_runtime_dependency "system_timer"
   s.add_runtime_dependency "configurable"

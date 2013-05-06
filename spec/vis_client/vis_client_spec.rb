@@ -35,22 +35,22 @@ module VisClient
          Thing.new(:statusable_type => "animal"),
          Thing.new(:statusable_type => "saiyan")]
       end
+      let(:notifier_builder) { double(NotifierBuilder) }
 
       before do
-        @notifier = double(Notifier)
-        @notifier.stub(:build)
+        notifier_builder.stub(:build)
       end
 
-
-      it "should instantiate Notifier" do
-        Notifier.should_receive(:new).with(resource, type, args).
-          and_return(@notifier)
-        VisClient.notify_delayed(resource, type, *args)
+      it "should instantiate NotifierBuilder with args" do
+        NotifierBuilder.should_receive(:new).with(resource, type, args).
+          and_return(notifier_builder)
+        VisClient.notify_delayed(resource, type, args)
       end
 
-      it "should call build method from Notifier" do
-        Notifier.any_instance.
-          should_receive(:build)
+      it "should invoke NotifierBuilder#build without args" do
+        NotifierBuilder.stub(:new).and_return(notifier_builder)
+
+        notifier_builder.should_receive(:build).with(no_args())
         VisClient.notify_delayed(resource, type, args)
       end
     end

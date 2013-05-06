@@ -12,7 +12,8 @@ require 'vis_client/notification_builder'
 require 'vis_client/job'
 require 'vis_client/queue'
 require 'vis_client/notifier'
-
+require 'vis_client/notifier_builder'
+require 'vis_client/notifier_builder_job'
 
 module VisClient
 
@@ -25,9 +26,8 @@ module VisClient
   end
 
   def self.notify_delayed(resource, type, *args)
-    notifier = Notifier.new(resource, type, args)
-    notifier.build
-    notifier
+    notifier_builder = NotifierBuilder.new(resource, type, args.first)
+    notifier_builder.build
   end
 
 end
