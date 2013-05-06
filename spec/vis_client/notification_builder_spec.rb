@@ -3,7 +3,7 @@ require "spec_helper"
 module VisClient
   describe NotificationBuilder do
     let(:type) { "ximbica" }
-    let(:object) { Thing.new("Saiyan") }
+    let(:object) { Thing.create(:statusable_type => "Saiyan") }
 
     subject { NotificationBuilder.new }
 

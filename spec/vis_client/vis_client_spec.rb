@@ -31,7 +31,9 @@ module VisClient
       let(:resource) { "/hierarchy_notifications.json" }
       let(:type) { "enrollment" }
       let(:args) do
-        [Thing.new("human"), Thing.new("animal"), Thing.new("saiyan")]
+        [Thing.new(:statusable_type => "human"),
+         Thing.new(:statusable_type => "animal"),
+         Thing.new(:statusable_type => "saiyan")]
       end
 
       before do

@@ -1,3 +1,5 @@
+require 'mongoid/version' # Needed because of ruby and mongoid version
+
 require 'vis_client/version'
 
 require 'vis_client/representers/notification_representer'

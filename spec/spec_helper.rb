@@ -2,6 +2,7 @@ require 'vis_client'
 require 'faraday'
 require 'webmock/rspec'
 require 'roar'
+require 'active_record'
 require 'delayed_job_mongoid'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
