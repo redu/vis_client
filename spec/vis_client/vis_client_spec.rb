@@ -30,28 +30,48 @@ module VisClient
     context "#notify_delayed" do
       let(:resource) { "/hierarchy_notifications.json" }
       let(:type) { "enrollment" }
-      let(:args) do
-        [Thing.new(:statusable_type => "human"),
-         Thing.new(:statusable_type => "animal"),
-         Thing.new(:statusable_type => "saiyan")]
-      end
       let(:notifier_builder) { double(NotifierBuilder) }
 
       before do
         notifier_builder.stub(:build)
       end
 
-      it "should instantiate NotifierBuilder with args" do
-        NotifierBuilder.should_receive(:new).with(resource, type, args).
-          and_return(notifier_builder)
-        VisClient.notify_delayed(resource, type, args)
+      context "with one element" do
+        let(:args) { Thing.new(:statusable_type => "human") }
+
+        it "should instantiate NotifierBuilder with [args]" do
+          NotifierBuilder.should_receive(:new).with(resource, type, [args]).
+            and_return(notifier_builder)
+          VisClient.notify_delayed(resource, type, args)
+        end
+
+        it "should invoke NotifierBuilder#build without args" do
+          NotifierBuilder.stub(:new).and_return(notifier_builder)
+
+          notifier_builder.should_receive(:build).with(no_args())
+          VisClient.notify_delayed(resource, type, args)
+        end
       end
 
-      it "should invoke NotifierBuilder#build without args" do
-        NotifierBuilder.stub(:new).and_return(notifier_builder)
+      context "with many elements" do
+        let(:args) do
+          [Thing.new(:statusable_type => "human"),
+           Thing.new(:statusable_type => "animal"),
+           Thing.new(:statusable_type => "saiyan")]
+        end
 
-        notifier_builder.should_receive(:build).with(no_args())
-        VisClient.notify_delayed(resource, type, args)
+        it "should instantiate NotifierBuilder with args" do
+          NotifierBuilder.should_receive(:new).with(resource, type, args).
+            and_return(notifier_builder)
+          VisClient.notify_delayed(resource, type, args)
+        end
+
+        it "should invoke NotifierBuilder#build without args" do
+          NotifierBuilder.stub(:new).and_return(notifier_builder)
+
+          notifier_builder.should_receive(:build).with(no_args())
+          VisClient.notify_delayed(resource, type, args)
+        end
       end
     end
   end

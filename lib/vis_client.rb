@@ -25,8 +25,9 @@ module VisClient
     @config ||= Config.new
   end
 
-  def self.notify_delayed(resource, type, *args)
-    notifier_builder = NotifierBuilder.new(resource, type, args.first)
+  def self.notify_delayed(resource, type, args)
+    elements = args.respond_to?(:map) ? args : [args]
+    notifier_builder = NotifierBuilder.new(resource, type, elements)
     notifier_builder.build
   end
 
