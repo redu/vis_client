@@ -53,7 +53,7 @@ module VisClient
       when 404
         raise ResourceNotFound, "Resource not found: app_id is probably invalid"
       when 409
-        raise Conflict, "Resorce already exists"
+        return true
       else
         raise ConnectionError, "Unknown error (status code #{status_code}): #{body}"
       end
