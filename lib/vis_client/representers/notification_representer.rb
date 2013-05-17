@@ -15,6 +15,7 @@ module VisClient
     property :statusable_type
     property :in_response_to_id
     property :in_response_to_type
+    property :grade
     property :created_at
     property :updated_at
 

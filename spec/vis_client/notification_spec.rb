@@ -5,7 +5,8 @@ module VisClient
     let(:payload) do
       { "user_id" => 1, "created_at" => Time.now,
         "updated_at" => Time.now, "lecture_id" => 1,
-        "subject_id" => 1, "space_id" => 1, "course_id" => 1}
+        "subject_id" => 1, "space_id" => 1, "course_id" => 1,
+        "grade" => 2.5}
     end
     let(:type) { "type" }
 
