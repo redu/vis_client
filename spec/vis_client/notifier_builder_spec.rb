@@ -32,7 +32,8 @@ module VisClient
       context "with type related to removal" do
         let(:type) { "remove_enrollment" }
 
-        let(:args) { [Thing.new("human"), Thing.new("bike")] }
+        let(:args) { [Thing.new(:statusable_type => "human"),
+                      Thing.new(:statusable_type => "bike")] }
         let(:notifier) { double(Notifier) }
 
         before do
@@ -43,7 +44,7 @@ module VisClient
       end
 
       context "with one element" do
-        let(:args) { [Thing.new("human")] }
+        let(:args) { [Thing.new(:statusable_type => "human")] }
         let(:notifier) { double(Notifier) }
 
         before do
@@ -64,7 +65,9 @@ module VisClient
 
         context "in an Array" do
           let(:args) do
-            [Thing.new("human"), Thing.new("animal"), Thing.new("saiyan")]
+            [Thing.new(:statusable_type => "human"),
+             Thing.new(:statusable_type => "animal"),
+             Thing.new(:statusable_type => "saiyan")]
           end
 
           it "should instantiate NotifierBuilderJob with args" do
