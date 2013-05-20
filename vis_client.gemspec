@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
                      possível se comunicar com o core apenas chamando um método e passando com parametro, os dados necessários e a url de destino.}
 
   s.rubyforge_project = "vis_client"
-  s.add_development_dependency "ruby-debug"
+  s.add_development_dependency "debugger"
   s.add_development_dependency "rspec"
   s.add_development_dependency "webmock"
   s.add_development_dependency "sqlite3"
@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "activerecord", "~> 3"
   s.add_runtime_dependency "valium"
   s.add_runtime_dependency "json"
-  s.add_runtime_dependency "system_timer"
   s.add_runtime_dependency "configurable"
   s.add_runtime_dependency "faraday"
   s.add_runtime_dependency "roar"

@@ -1,3 +1,6 @@
+$:.unshift File.dirname(__FILE__)
+
+require 'bundler/setup'
 require 'vis_client'
 require 'faraday'
 require 'webmock/rspec'
@@ -8,7 +11,8 @@ require 'delayed_job_mongoid'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir["spec/support/**/*.rb"].each {|f| require f}
+require "support/setup_ar_and_schema"
+require "support/thing_vis_representer"
 
 Mongoid.configure do |config|
   config.master = Mongo::Connection.new.db("vis_client_test")
